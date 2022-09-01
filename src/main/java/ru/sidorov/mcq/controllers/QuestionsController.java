@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/api/questions")
 public class QuestionsController {
 
     private QuestionRepo questionRepo;
@@ -26,7 +27,7 @@ public class QuestionsController {
         this.questionRepo = questionRepo;
     }
 
-    @GetMapping("/api/questions")
+    @GetMapping
     public Map<String, Object> allQuestions() {
 
         Map<String, Object> model = new HashMap<>();
@@ -37,7 +38,7 @@ public class QuestionsController {
 
     }
 
-    @GetMapping("/api/questions/actual")
+    @GetMapping("/actual")
     public Map<String, Object> actualQuestions() {
 
         Map<String, Object> model = new HashMap<>();
@@ -48,7 +49,7 @@ public class QuestionsController {
 
     }
 
-    @GetMapping("/api/questions/disabled")
+    @GetMapping("/disabled")
     public Map<String, Object> disabledQuestions() {
         Map<String, Object> model = new HashMap<>();
         Iterable<Question> disabledQuestions = questionRepo.findQuestionsByEnabled(false);
@@ -57,7 +58,7 @@ public class QuestionsController {
         return model;
     }
 
-    @GetMapping("/api/questions/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Question> questionByID(@PathVariable("id") long id) {
         Optional<Question> questionByID = questionRepo.findById(id);
         if (questionByID.isPresent()) {
@@ -67,7 +68,7 @@ public class QuestionsController {
         }
     }
 
-    @PostMapping("/api/questions/")
+    @PostMapping
     public Question postQuestion(@RequestBody Question question) {
         return questionRepo.save(question);
     }

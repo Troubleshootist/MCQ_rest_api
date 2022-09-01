@@ -1,8 +1,7 @@
 package ru.sidorov.mcq.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.sidorov.mcq.repository.ExamRepo;
 
 import java.util.HashMap;
@@ -23,4 +22,5 @@ public class ExamController {
         model.put("exams", examRepo.findAll());
         return model;
     }
+
 }

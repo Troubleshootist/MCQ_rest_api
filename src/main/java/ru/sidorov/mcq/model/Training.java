@@ -1,69 +1,37 @@
 package ru.sidorov.mcq.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@NoArgsConstructor
+@Getter
+@Setter
 public class Training {
-    private long id;
-    private String name;
-
-    private Set<Question> questions;
-    private Set<Requirements> requirements;
-    private Set<Course> courses;
-
-    public Training() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    private long id;
+    private String name;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="training_id")
-    public Set<Question> getQuestions() {
-        return questions;
-    }
-
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
-    }
+    private Set<Question> questions;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "training_id")
-    public Set<Requirements> getRequirements() {
-        return requirements;
-    }
+    private Set<Requirements> requirements;
 
-    public void setRequirements(Set<Requirements> requirements) {
-        this.requirements = requirements;
-    }
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "training_id")
-    public Set<Course> getCourses() {
-        return courses;
-    }
+    private Set<Course> courses;
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
-    }
 }
