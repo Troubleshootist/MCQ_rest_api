@@ -3,6 +3,7 @@ package ru.sidorov.mcq.model;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Question {
@@ -23,6 +24,10 @@ public class Question {
     private String changedBy;
     private String disableReason;
     private int level;
+
+    private Set<Answer> answers;
+    private AtaChapter ataChapter;
+    private Training training;
 
     public Date getCheckDate() {
         return checkDate;
@@ -96,19 +101,21 @@ public class Question {
         this.level = level;
     }
 
-    private List<Answer> answers;
 
-    public void setAnswers(List<Answer> answers) {
+
+    public void setAnswers(Set<Answer> answers) {
         this.answers = answers;
     }
 
-    @OneToMany(mappedBy = "question")
-    public List<Answer> getAnswers() {
+//    @OneToMany(mappedBy = "question", cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="question_id")
+    public Set<Answer> getAnswers() {
         return answers;
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -162,4 +169,24 @@ public class Question {
     }
 
 
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="ata_chapter_id")
+    public AtaChapter getAtaChapter() {
+        return ataChapter;
+    }
+
+    public void setAtaChapter(AtaChapter ataChapter) {
+        this.ataChapter = ataChapter;
+    }
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "training_id")
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
+    }
 }

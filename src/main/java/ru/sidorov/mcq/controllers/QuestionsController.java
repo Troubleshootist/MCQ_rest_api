@@ -1,15 +1,20 @@
 package ru.sidorov.mcq.controllers;
 
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import ru.sidorov.mcq.model.Answer;
 import ru.sidorov.mcq.model.Question;
 
 import ru.sidorov.mcq.repository.QuestionRepo;
+import ru.sidorov.mcq.repository.UserRepo;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class QuestionsController {
@@ -51,5 +56,21 @@ public class QuestionsController {
         model.put("questions", disabledQuestions);
         return model;
     }
+
+    @GetMapping("/api/questions/{id}")
+    public ResponseEntity<Question> questionByID(@PathVariable("id") long id) {
+        Optional<Question> questionByID = questionRepo.findById(id);
+        if (questionByID.isPresent()) {
+            return new ResponseEntity<>(questionByID.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/api/questions/")
+    public Question postQuestion(@RequestBody Question question) {
+        return questionRepo.save(question);
+    }
+
 
 }

@@ -14,7 +14,7 @@ public class Answer {
     private Question question;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long getId() {
         return id;
     }
@@ -40,7 +40,8 @@ public class Answer {
     }
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY,optional = false)
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="question_id", insertable=false, updatable=false)
     public Question getQuestion() {
         return question;
     }
