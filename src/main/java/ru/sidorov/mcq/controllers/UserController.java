@@ -18,9 +18,6 @@ public class UserController {
         this.userRepo = userRepo;
     }
 
-
-
-
     @GetMapping
     public Map<String, Object> allUsers () {
         Map<String, Object> model = new HashMap<>();

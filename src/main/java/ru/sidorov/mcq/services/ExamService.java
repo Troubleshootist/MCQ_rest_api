@@ -1,25 +1,20 @@
 package ru.sidorov.mcq.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.model.Requirement;
-import ru.sidorov.mcq.repository.ExamRepo;
 import ru.sidorov.mcq.repository.QuestionRepo;
 import ru.sidorov.mcq.repository.RequirementRepo;
 
-import java.awt.print.Pageable;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 public class ExamService {
-    private Exam exam;
-    private ExamRepo examRepo;
+
+
     private QuestionRepo questionRepo;
     private RequirementRepo requirementRepo;
 

@@ -1,19 +1,28 @@
 package ru.sidorov.mcq.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-import javax.persistence.*;
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,16 +30,12 @@ public class Exam {
     private Date date;
     private String noteForExaminer;
 
+
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name="exam_id")
-//    private Set<ExamQuestionSequence> questionSequenceSet;
-
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "examquestions",
                 joinColumns = {@JoinColumn(name="exam_id")},
                 inverseJoinColumns = {@JoinColumn(name="question_id")})

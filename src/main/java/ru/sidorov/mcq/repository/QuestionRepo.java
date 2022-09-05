@@ -1,14 +1,11 @@
 package ru.sidorov.mcq.repository;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Question;
 
-import java.awt.print.Pageable;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Set;
 

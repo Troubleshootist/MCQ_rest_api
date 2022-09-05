@@ -1,17 +1,13 @@
 package ru.sidorov.mcq.controllers;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import ru.sidorov.mcq.model.Answer;
 import ru.sidorov.mcq.model.Question;
 
 import ru.sidorov.mcq.repository.QuestionRepo;
-import ru.sidorov.mcq.repository.UserRepo;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

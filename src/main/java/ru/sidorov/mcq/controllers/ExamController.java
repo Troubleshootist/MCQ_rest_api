@@ -33,4 +33,9 @@ public class ExamController {
         return examRepo.save(examService.createExam(exam));
     }
 
+    @DeleteMapping("{id}")
+    public void deleteExam(@PathVariable(value = "id") Long id) {
+        examRepo.deleteById(id);
+    }
+
 }
