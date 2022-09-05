@@ -1,7 +1,6 @@
 package ru.sidorov.mcq.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +26,7 @@ public class Training {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "training_id")
-    private Set<Requirements> requirements;
+    private Set<Requirement> requirements;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)

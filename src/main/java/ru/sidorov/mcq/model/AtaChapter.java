@@ -27,7 +27,7 @@ public class AtaChapter {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="ata_id")
-    private Set<Requirements> requirements;
+    private Set<Requirement> requirements;
 
 
 

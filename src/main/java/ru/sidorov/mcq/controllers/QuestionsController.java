@@ -42,7 +42,7 @@ public class QuestionsController {
     public Map<String, Object> actualQuestions() {
 
         Map<String, Object> model = new HashMap<>();
-        Iterable<Question> allQuestions = questionRepo.findQuestionsByEnabledAndChecked(true, true);
+        Iterable<Question> allQuestions = questionRepo.findByEnabledAndChecked(true, true);
 
         model.put("questions", allQuestions);
         return model;
@@ -52,7 +52,7 @@ public class QuestionsController {
     @GetMapping("/disabled")
     public Map<String, Object> disabledQuestions() {
         Map<String, Object> model = new HashMap<>();
-        Iterable<Question> disabledQuestions = questionRepo.findQuestionsByEnabled(false);
+        Iterable<Question> disabledQuestions = questionRepo.findByEnabled(false);
 
         model.put("questions", disabledQuestions);
         return model;

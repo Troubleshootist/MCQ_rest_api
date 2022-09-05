@@ -2,26 +2,28 @@ package ru.sidorov.mcq.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.sidorov.mcq.repository.RequirementsRepo;
+import ru.sidorov.mcq.repository.RequirementRepo;
 
 import java.util.HashMap;
 import java.util.Map;
 
 
 @RestController
+@RequestMapping("/api/requirements")
 public class RequirementsController {
-    private RequirementsRepo requirementsRepo;
+    private RequirementRepo requirementRepo;
 
     @Autowired
-    public void setRequirementsRepo(RequirementsRepo requirementsRepo) {
-        this.requirementsRepo = requirementsRepo;
+    public void setRequirementsRepo(RequirementRepo requirementRepo) {
+        this.requirementRepo = requirementRepo;
     }
 
-    @GetMapping("/api/requirements")
+    @GetMapping
     public Map<String, Object> getAllRequirements() {
         Map<String, Object> model = new HashMap<>();
-        model.put("requirements", requirementsRepo.findAll());
+        model.put("requirements", requirementRepo.findAll());
         return model;
     }
 }

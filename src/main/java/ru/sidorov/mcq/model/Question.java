@@ -3,6 +3,7 @@ package ru.sidorov.mcq.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Question {
 
     @Id
