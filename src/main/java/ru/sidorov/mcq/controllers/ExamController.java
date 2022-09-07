@@ -34,15 +34,11 @@ public class ExamController {
     @GetMapping("{id}")
     public Map<String, Object> showExamInfo(@PathVariable("id") long id) {
         Map<String, Object> model = new HashMap<>();
-        Optional<Exam> examByID = examRepo.findById(id);
-        if (examByID.isPresent()) {
-            model.put("exam", examByID.get());
-            model.put("questions_count", examByID.get().getQuestions().size());
-            return model;
-        } else {
-            throw new EntityNotFoundException("No exam with this id");
-        }
-        
+        Exam exam = examRepo.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("No exam found"));
+        model.put("exam", exam);
+        model.put("questions_count", exam.getQuestions().size());
+        return model;
     }
 
     @PostMapping

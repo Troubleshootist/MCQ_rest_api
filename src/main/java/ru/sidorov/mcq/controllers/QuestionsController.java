@@ -5,12 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import ru.sidorov.mcq.exceptions.EntityNotFoundException;
 import ru.sidorov.mcq.model.Question;
 
 import ru.sidorov.mcq.repository.QuestionRepo;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/questions")
@@ -55,13 +56,10 @@ public class QuestionsController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Question> questionByID(@PathVariable("id") long id) {
-        Optional<Question> questionByID = questionRepo.findById(id);
-        if (questionByID.isPresent()) {
-            return new ResponseEntity<>(questionByID.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
+    public Question questionByID(@PathVariable("id") long id) {
+        return questionRepo.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException("Question not found"));
+   
     }
 
     @PostMapping
