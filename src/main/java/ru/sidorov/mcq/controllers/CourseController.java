@@ -33,10 +33,13 @@ public class CourseController {
     }
 
     @GetMapping("{id}")
-    public Course getCourseInfo(@PathVariable long id) {
-        return courseRepo.findById(id)
+    public Map<String, Object> getCourseInfo(@PathVariable long id) {
+        Map<String, Object> model = new HashMap<>();
+        Course course = courseRepo.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Course not found"));
-        
+        model.put("course", course);
+        model.put("students", course.getStudents());
+        return model;
     }
     
     

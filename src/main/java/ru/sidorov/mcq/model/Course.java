@@ -31,6 +31,7 @@ public class Course {
     @JoinColumn(name = "course_id")
     private List<Exam> exams;
 
+    @JsonIgnore
     @OneToMany
     @JoinColumn(name = "course_id")
     private List<Student> students;

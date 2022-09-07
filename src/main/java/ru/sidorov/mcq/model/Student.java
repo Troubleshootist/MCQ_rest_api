@@ -29,7 +29,6 @@ public class Student {
     private String surname;
     private Date dob;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
