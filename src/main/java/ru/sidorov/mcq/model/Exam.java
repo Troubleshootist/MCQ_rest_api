@@ -30,7 +30,7 @@ public class Exam {
     private Date date;
     private String noteForExaminer;
 
-
+    
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;

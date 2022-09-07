@@ -16,9 +16,6 @@ public interface QuestionRepo extends CrudRepository<Question, Long> {
 
     Iterable<Question> findByAtaChapterIn(Set<AtaChapter> ataChapters);
 
-    List<Question> findByAtaChapterAndLevel(AtaChapter ataChapter, int level);
+    List<Question> findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrue(AtaChapter ataChapter, int level);
 
-//    @Query("select q from Question q where ataChapter = :ataChapter and q.level = :level order by RAND(123)")
-//    Iterable<Question> findByAtaChapterAndLevelLimited(@Param("ataChapter") AtaChapter ataChapter,
-//                                                       @Param("level") int level);
 }

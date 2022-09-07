@@ -19,7 +19,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String question;
+    private String text;
     private Boolean enabled;
     private Boolean checked;
     private String bookPage;

@@ -30,15 +30,13 @@ public class ExamService {
         this.questionRepo = questionRepo;
     }
 
-    public ExamService() {
-
-    }
+  
 
     public Exam createExam(Exam exam) {
         List<Question> examQuestions = new ArrayList<>();
         for (AtaChapter ataChapter: exam.getAtaChapters()) {
             Requirement requirement = requirementRepo.findByTrainingAndAtaChapter(exam.getCourse().getTraining(), ataChapter);
-            List<Question> questionsPart = questionRepo.findByAtaChapterAndLevel(ataChapter, requirement.getLevel());
+            List<Question> questionsPart = questionRepo.findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrue(ataChapter, requirement.getLevel());
 
             // Из-за того что не получается сделать запрос Order by random и Limit в HQL запросе - придется это делать в коде
             Collections.shuffle(questionsPart);

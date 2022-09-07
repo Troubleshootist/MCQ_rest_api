@@ -2,12 +2,15 @@ package ru.sidorov.mcq.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import ru.sidorov.mcq.exceptions.EntityNotFoundException;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.repository.ExamRepo;
 import ru.sidorov.mcq.services.ExamService;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/exams")
@@ -28,6 +31,20 @@ public class ExamController {
         return model;
     }
 
+    @GetMapping("{id}")
+    public Map<String, Object> showExamInfo(@PathVariable("id") long id) {
+        Map<String, Object> model = new HashMap<>();
+        Optional<Exam> examByID = examRepo.findById(id);
+        if (examByID.isPresent()) {
+            model.put("exam", examByID.get());
+            model.put("questions_count", examByID.get().getQuestions().size());
+            return model;
+        } else {
+            throw new EntityNotFoundException("No exam with this id");
+        }
+        
+    }
+
     @PostMapping
     public Exam createExam(@RequestBody Exam exam) {
         return examRepo.save(examService.createExam(exam));
@@ -35,7 +52,12 @@ public class ExamController {
 
     @DeleteMapping("{id}")
     public void deleteExam(@PathVariable(value = "id") Long id) {
-        examRepo.deleteById(id);
+        if (examRepo.existsById(id)) {
+            examRepo.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("No exam with this id");
+        }
+        
     }
 
 }
