@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sidorov.mcq.model.User;
 import ru.sidorov.mcq.repository.UserRepo;
+import ru.sidorov.mcq.services.UserService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,11 +13,18 @@ import java.util.Map;
 @RequestMapping("api/users")
 public class UserController {
     private UserRepo userRepo;
-
+    private UserService userService;
+    
     @Autowired
     public void setUserRepo(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
+    
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+    
 
     @GetMapping
     public Map<String, Object> allUsers () {
@@ -29,6 +37,9 @@ public class UserController {
 
     @PostMapping
     public User postUser(@RequestBody User user) {
-        return userRepo.save(user);
+        return userService.save(user);
     }
+
+
+
 }

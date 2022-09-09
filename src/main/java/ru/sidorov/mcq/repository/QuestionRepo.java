@@ -3,8 +3,9 @@ package ru.sidorov.mcq.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.sidorov.mcq.model.AtaChapter;
+import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
-
+import ru.sidorov.mcq.model.Training;
 
 import java.util.List;
 import java.util.Set;
@@ -16,6 +17,8 @@ public interface QuestionRepo extends CrudRepository<Question, Long> {
 
     Iterable<Question> findByAtaChapterIn(Set<AtaChapter> ataChapters);
 
-    List<Question> findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrue(AtaChapter ataChapter, int level);
+    List<Question> findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(AtaChapter ataChapter, int level, Training training);
 
+    // List<Question> findByTrainingAndEnabledIsTrueAndCheckedIsTrueAndAtaChapterInAndNotIn(Training training, Set<AtaChapter> ataChapters, List<Question> restrictedQuestions);
+    
 }

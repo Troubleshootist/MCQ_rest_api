@@ -3,7 +3,7 @@ package ru.sidorov.mcq.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ru.sidorov.mcq.exceptions.EntityNotFoundException;
+import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Question;
 
 import ru.sidorov.mcq.repository.QuestionRepo;
@@ -56,7 +56,7 @@ public class QuestionsController {
     @GetMapping("{id}")
     public Question questionByID(@PathVariable("id") long id) {
         return questionRepo.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("Question not found"));
+                    .orElseThrow(() -> new MyEntityNotFoundException("Question not found"));
    
     }
 

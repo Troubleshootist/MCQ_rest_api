@@ -3,14 +3,13 @@ package ru.sidorov.mcq.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import ru.sidorov.mcq.exceptions.EntityNotFoundException;
+import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.repository.ExamRepo;
 import ru.sidorov.mcq.services.ExamService;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("api/exams")
@@ -35,7 +34,7 @@ public class ExamController {
     public Map<String, Object> showExamInfo(@PathVariable("id") long id) {
         Map<String, Object> model = new HashMap<>();
         Exam exam = examRepo.findById(id)
-                    .orElseThrow(() -> new EntityNotFoundException("No exam found"));
+                    .orElseThrow(() -> new MyEntityNotFoundException("No exam found"));
         model.put("exam", exam);
         model.put("questions_count", exam.getQuestions().size());
         return model;
@@ -51,7 +50,7 @@ public class ExamController {
         if (examRepo.existsById(id)) {
             examRepo.deleteById(id);
         } else {
-            throw new EntityNotFoundException("No exam with this id");
+            throw new MyEntityNotFoundException("No exam with this id");
         }
         
     }

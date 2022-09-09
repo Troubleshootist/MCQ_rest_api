@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ru.sidorov.mcq.exceptions.EntityNotFoundException;
+import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Student;
 import ru.sidorov.mcq.repository.StudentRepo;
 
@@ -32,7 +32,7 @@ public class StudentController {
     @GetMapping("{id}")
     public Student getStudentById(@PathVariable long id) {
         return studentRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No student found"));
+                .orElseThrow(() -> new MyEntityNotFoundException("No student found"));
     }
 
     @PutMapping("{id}")
@@ -55,7 +55,7 @@ public class StudentController {
         if (studentRepo.existsById(id)) {
             studentRepo.deleteById(id);
         } else {
-            throw new EntityNotFoundException("No student found");
+            throw new MyEntityNotFoundException("No student found");
         }
     }
 }
