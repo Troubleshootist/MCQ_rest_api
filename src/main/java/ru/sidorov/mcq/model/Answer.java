@@ -18,12 +18,12 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String answer;
+    private String text;
     private boolean correct;
 
     @JsonIgnore
     @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="question_id", insertable=false, updatable=false)
+    @JoinColumn(name="question_id")
     private Question question;
 
 

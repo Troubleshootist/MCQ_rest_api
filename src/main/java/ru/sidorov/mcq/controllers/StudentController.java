@@ -32,7 +32,7 @@ public class StudentController {
     @GetMapping("{id}")
     public Student getStudentById(@PathVariable long id) {
         return studentRepo.findById(id)
-                .orElseThrow(() -> new MyEntityNotFoundException("No student found"));
+                .orElseThrow(() -> new MyEntityNotFoundException("No student found" + id)); // Больше информации string template
     }
 
     @PutMapping("{id}")

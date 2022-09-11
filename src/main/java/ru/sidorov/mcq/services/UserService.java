@@ -21,7 +21,7 @@ public class UserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User save(User user) {
+    public User save(User user) { // название метода
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         return userRepo.save(user);

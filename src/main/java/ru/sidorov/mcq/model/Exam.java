@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
+@Entity 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {})
 public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long id; //uuid
     private Date date;
     private String noteForExaminer;
 

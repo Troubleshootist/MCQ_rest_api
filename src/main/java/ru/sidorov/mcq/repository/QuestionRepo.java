@@ -3,7 +3,6 @@ package ru.sidorov.mcq.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import ru.sidorov.mcq.model.AtaChapter;
-import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.model.Training;
 
@@ -17,8 +16,10 @@ public interface QuestionRepo extends CrudRepository<Question, Long> {
 
     Iterable<Question> findByAtaChapterIn(Set<AtaChapter> ataChapters);
 
+    
+    // criteria builder, pageable! сделать спецификацию обьектом и вызывать статические методы
     List<Question> findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(AtaChapter ataChapter, int level, Training training);
 
-    // List<Question> findByTrainingAndEnabledIsTrueAndCheckedIsTrueAndAtaChapterInAndNotIn(Training training, Set<AtaChapter> ataChapters, List<Question> restrictedQuestions);
+    List<Question> findByTrainingAndEnabledIsTrueAndCheckedIsTrueAndAtaChapterInAndIdNotIn(Training training, Set<AtaChapter> ataChapters, List<Long> restrictedQuestionsIdList);
     
 }
