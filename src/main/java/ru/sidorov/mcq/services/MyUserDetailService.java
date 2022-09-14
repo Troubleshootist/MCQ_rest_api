@@ -17,8 +17,12 @@ import ru.sidorov.mcq.repository.UserRepo;
 @Service
 @EnableWebSecurity
 public class MyUserDetailService implements UserDetailsService{
+    private final UserRepo userRepo;
+
     @Autowired
-    private UserRepo userRepo;    
+    public MyUserDetailService(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

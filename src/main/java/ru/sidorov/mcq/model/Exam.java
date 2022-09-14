@@ -4,19 +4,14 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity 
 @Getter
@@ -35,16 +30,17 @@ public class Exam {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JoinTable(name = "examquestions",
                 joinColumns = {@JoinColumn(name="exam_id")},
                 inverseJoinColumns = {@JoinColumn(name="question_id")})
     private List<Question> questions;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="exam_ata_chapters",
                 joinColumns = {@JoinColumn(name = "exam_id")},
                 inverseJoinColumns = {@JoinColumn(name = "atachapter_id")})
-    private Set<AtaChapter> ataChapters;
+    private List<AtaChapter> ataChapters;
 
 }

@@ -2,13 +2,15 @@ package ru.sidorov.mcq.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Question;
-
 import ru.sidorov.mcq.repository.QuestionRepo;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.springframework.data.jpa.domain.Specification.where;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.*;
 
 
 @RestController
@@ -27,7 +29,6 @@ public class QuestionsController {
 
         Map<String, Object> model = new HashMap<>();
         Iterable<Question> allQuestions = questionRepo.findAll();
-
         model.put("questions", allQuestions);
         return model;
 
@@ -37,9 +38,9 @@ public class QuestionsController {
     public Map<String, Object> actualQuestions() {
 
         Map<String, Object> model = new HashMap<>();
-        Iterable<Question> allQuestions = questionRepo.findByEnabledAndChecked(true, true);
-
-        model.put("questions", allQuestions);
+//        Iterable<Question> allQuestions = questionRepo.findByEnabledAndChecked(true, true);
+        Iterable<Question> actualQuestions = questionRepo.findAll(where(enabled()).and(checked()));
+        model.put("questions", actualQuestions);
         return model;
 
     }
@@ -58,6 +59,11 @@ public class QuestionsController {
         return questionRepo.findById(id)
                     .orElseThrow(() -> new MyEntityNotFoundException("Question not found"));
    
+    }
+
+    @GetMapping("/by_exam/{examID}")
+    public void questionsByExamID(@PathVariable("examID") long examID) {
+        System.out.println(questionRepo.findAll(inExam(examID)));
     }
 
     @PostMapping

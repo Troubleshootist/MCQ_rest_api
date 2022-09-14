@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Question {
 
     @Id
@@ -34,7 +33,7 @@ public class Question {
     private String disableReason;
     private int level;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name="question_id")
     private Set<Answer> answers;
 
@@ -46,4 +45,11 @@ public class Question {
     @JoinColumn(name = "training_id")
     private Training training;
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

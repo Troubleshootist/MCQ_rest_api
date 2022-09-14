@@ -52,7 +52,6 @@ public class ExamController {
         } else {
             throw new MyEntityNotFoundException("No exam with this id");
         }
-        
     }
 
 }
