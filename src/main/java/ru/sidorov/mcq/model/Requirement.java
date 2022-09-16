@@ -26,4 +26,9 @@ public class Requirement {
     @JoinColumn(name="training_id")
     private Training training;
 
+    @Override
+    public String toString() {
+        return String.format("Training: %s, questions number: %d", training.getName(), questionsNumber);
+    }
+
 }

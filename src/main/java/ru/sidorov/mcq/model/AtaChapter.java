@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 @Table(name="atachapter", schema = "public")
 public class AtaChapter {
     @Id
@@ -27,9 +26,15 @@ public class AtaChapter {
     @JoinColumn(name="ata_chapter_id")
     private Set<Question> questions;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="ata_id")
     private Set<Requirement> requirements;
+    @Override
+    public String toString() {
+        return "AtaChapter [ATA=" + ataDigit + ", Description=" + ataDescription + "]";
+    }
+
+    
 
 
 

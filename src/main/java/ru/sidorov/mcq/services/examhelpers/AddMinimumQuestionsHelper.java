@@ -33,14 +33,16 @@ public class AddMinimumQuestionsHelper {
     	List<Question> examQuestions = new ArrayList<>();
         for (AtaChapter ataChapter: exam.getAtaChapters()) {
             Requirement requirement = requirementRepo.findByTrainingAndAtaChapter(exam.getCourse().getTraining(), ataChapter);
-            List<Question> questionsPart = questionRepo.findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(ataChapter, requirement.getLevel(), exam.getCourse().getTraining());
-
-            // Из-за того что не получается сделать запрос Order by random и Limit в HQL запросе - придется это делать в коде
-            Collections.shuffle(questionsPart);
-            List<Question> preparedQuestions = questionsPart.stream()
-                    .limit(requirement.getQuestionsNumber())
-                    .toList();
-            examQuestions.addAll(preparedQuestions);
+            if (requirement != null) {
+                List<Question> questionsPart = questionRepo.findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(ataChapter, requirement.getLevel(), exam.getCourse().getTraining());
+                
+                // Из-за того что не получается сделать запрос Order by random и Limit в HQL запросе - придется это делать в коде
+                Collections.shuffle(questionsPart);
+                List<Question> preparedQuestions = questionsPart.stream()
+                .limit(requirement.getQuestionsNumber())
+                .toList();
+                examQuestions.addAll(preparedQuestions);
+            }
 
         }
         exam.setQuestions(examQuestions);

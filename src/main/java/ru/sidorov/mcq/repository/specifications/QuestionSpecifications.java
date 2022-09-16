@@ -1,12 +1,23 @@
 package ru.sidorov.mcq.repository.specifications;
 
-import org.springframework.data.jpa.domain.Specification;
-import ru.sidorov.mcq.model.*;
-import ru.sidorov.mcq.model.Question_;
-
-import javax.persistence.criteria.*;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import ru.sidorov.mcq.model.AtaChapter;
+import ru.sidorov.mcq.model.Exam;
+import ru.sidorov.mcq.model.Question;
+import ru.sidorov.mcq.model.Question_;
+import ru.sidorov.mcq.model.Training;
 
 
 public class QuestionSpecifications {
@@ -20,12 +31,7 @@ public class QuestionSpecifications {
         };
     }
     public static Specification<Question> checked() {
-        return new Specification<Question>() {
-            @Override
-            public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                return criteriaBuilder.equal(root.get(Question_.CHECKED), true);
-            }
-        };
+        return (root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get(Question_.CHECKED), true);
     }
     public static Specification<Question> byTraining(Training training) {
         return new Specification<Question>() {
@@ -46,18 +52,22 @@ public class QuestionSpecifications {
         };
     }
 
-    public static Specification<Question> inExam(long examID) {
+    public static Specification<Question> inExam(Exam examToCreate) {
         return new Specification<Question>() {
             @Override
             public Predicate toPredicate(Root<Question> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                query.distinct(true);
                 Root<Question> question = root;
                 Subquery<Exam> examSubQuery = query.subquery(Exam.class);
                 Root<Exam> exam = examSubQuery.from(Exam.class);
                 Expression<Collection<Question>> examQuestions = exam.get("questions");
                 examSubQuery.select(exam);
-                examSubQuery.where(criteriaBuilder.equal(exam.get("id"), examID), criteriaBuilder.isMember(question, examQuestions));
+                examSubQuery.where(criteriaBuilder.equal(exam, examToCreate), criteriaBuilder.isMember(question, examQuestions));
                 return criteriaBuilder.exists(examSubQuery);
             }
         };
     }
+
+
+
 }

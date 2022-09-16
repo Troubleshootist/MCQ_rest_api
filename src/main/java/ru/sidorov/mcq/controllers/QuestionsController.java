@@ -61,10 +61,10 @@ public class QuestionsController {
    
     }
 
-    @GetMapping("/by_exam/{examID}")
-    public void questionsByExamID(@PathVariable("examID") long examID) {
-        System.out.println(questionRepo.findAll(inExam(examID)));
-    }
+    // @GetMapping("/by_exam/{examID}")
+    // public void questionsByExamID(@PathVariable("examID") long examID) {
+    //     System.out.println(questionRepo.findAll(inExam(examID)));
+    // }
 
     @PostMapping
     public Question postQuestion(@RequestBody Question question) {

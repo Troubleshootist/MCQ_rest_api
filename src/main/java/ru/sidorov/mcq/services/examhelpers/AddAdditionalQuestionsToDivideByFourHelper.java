@@ -6,6 +6,14 @@ import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.repository.QuestionRepo;
 
+import static org.springframework.data.jpa.domain.Specification.not;
+import static org.springframework.data.jpa.domain.Specification.where;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.byTraining;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.checked;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.enabled;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.inAtaChapters;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.inExam;
+
 import java.util.Collections;
 import java.util.List;
 

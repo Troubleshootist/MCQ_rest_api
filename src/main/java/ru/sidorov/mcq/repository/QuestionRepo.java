@@ -1,15 +1,16 @@
 package ru.sidorov.mcq.repository;
 
-import org.springframework.data.jpa.domain.Specification;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
 import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.model.Training;
-
-import java.util.List;
-import java.util.Set;
 
 @Repository
 public interface QuestionRepo extends CrudRepository<Question, Long>, JpaSpecificationExecutor<Question> {
