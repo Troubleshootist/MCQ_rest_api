@@ -3,16 +3,7 @@ package ru.sidorov.mcq.model;
 import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -26,7 +17,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(exclude = {})
 public class Exam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,5 +41,9 @@ public class Exam {
                 joinColumns = {@JoinColumn(name = "exam_id")},
                 inverseJoinColumns = {@JoinColumn(name = "atachapter_id")})
     private List<AtaChapter> ataChapters;
+
+    @OneToMany
+    @JoinColumn(name = "exam_id")
+    private List<StudentAnswer> answers;
 
 }

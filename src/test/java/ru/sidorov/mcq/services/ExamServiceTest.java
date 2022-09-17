@@ -1,34 +1,24 @@
 package ru.sidorov.mcq.services;
 
 
-import java.sql.Date;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.expression.spel.ast.QualifiedIdentifier;
 import org.springframework.test.annotation.Repeat;
 import org.springframework.test.context.junit4.SpringRunner;
-
-
 import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Course;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
-import ru.sidorov.mcq.repository.AtaChapterRepository;
-import ru.sidorov.mcq.repository.CourseRepo;
-import ru.sidorov.mcq.repository.ExamRepo;
-import ru.sidorov.mcq.repository.QuestionRepo;
+import ru.sidorov.mcq.repository.*;
 
-import static org.springframework.data.jpa.domain.Specification.where;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+
 import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.inExam;
 
 @RunWith(SpringRunner.class)
@@ -48,6 +38,9 @@ public class ExamServiceTest {
 
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private StudentAnswerRepo studentAnswerRepo;
 
 
     @Test
@@ -85,8 +78,17 @@ public class ExamServiceTest {
         List<Question> deletedQuestions = questionRepo.findAll(inExam(exam));
         Assert.assertEquals(0, deletedQuestions.size());
 
+        // check for unique questions in exam
         Assert.assertEquals(exam.getQuestions().size(), exam.getQuestions().stream().map(Question::getId).distinct().toList().size());
 
+    }
+
+    @Test
+    public void examCheckedTest() {
+        Exam exam = examRepo.findById(89L).orElseThrow();
+        long examAnswersCountFromRepo = studentAnswerRepo.findByExam(exam).size();
+        int estimatedAnswersCount = exam.getQuestions().size() * exam.getCourse().getStudents().size();
+        Assert.assertEquals(estimatedAnswersCount, examAnswersCountFromRepo);
     }
 
 

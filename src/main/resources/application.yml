@@ -8,4 +8,6 @@ spring:
         show-sql: false
         properties:
             hibernate:
-               format-sql: true
+                format-sql: true
+                hbm2ddl:
+                    auto: update
