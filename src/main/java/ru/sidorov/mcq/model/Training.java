@@ -33,4 +33,11 @@ public class Training {
     @JoinColumn(name = "training_id")
     private Set<Course> courses;
 
+    @Override
+    public String toString() {
+        return "Training{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

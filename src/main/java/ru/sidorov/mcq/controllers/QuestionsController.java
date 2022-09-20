@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.repository.QuestionRepo;
+import ru.sidorov.mcq.services.QuestionService;
 
+import javax.websocket.OnClose;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,10 +20,16 @@ import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.*;
 public class QuestionsController {
 
     private QuestionRepo questionRepo;
+    private QuestionService questionService;
 
     @Autowired
     public void setQuestionRepo(QuestionRepo questionRepo) {
         this.questionRepo = questionRepo;
+    }
+
+    @Autowired
+    public void setQuestionService(QuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @GetMapping
@@ -55,16 +63,16 @@ public class QuestionsController {
     }
 
     @GetMapping("{id}")
-    public Question questionByID(@PathVariable("id") long id) {
-        return questionRepo.findById(id)
-                    .orElseThrow(() -> new MyEntityNotFoundException("Question not found"));
-   
+    public Map<String, Object> questionByID(@PathVariable("id") long id) {
+        Map<String, Object> model = new HashMap<>();
+        Question question = questionRepo.findById(id)
+                    .orElseThrow(() -> new MyEntityNotFoundException(String.format("No question with id %d", id)));
+        model.put("Question", question);
+        model.put("Total correct answers percentage", questionService.getCorrectPercentage(question));
+        model.put("Used times", questionService.usedTimes(question));
+        model.put("Used in exams", question.getExams());
+        return model;
     }
-
-    // @GetMapping("/by_exam/{examID}")
-    // public void questionsByExamID(@PathVariable("examID") long examID) {
-    //     System.out.println(questionRepo.findAll(inExam(examID)));
-    // }
 
     @PostMapping
     public Question postQuestion(@RequestBody Question question) {

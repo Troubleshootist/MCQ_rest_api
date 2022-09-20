@@ -1,4 +1,4 @@
-package ru.sidorov.mcq.services.examhelpers;
+package ru.sidorov.mcq.services.exam_service_helpers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +11,7 @@ import ru.sidorov.mcq.repository.RequirementRepo;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -46,6 +47,13 @@ public class AddMinimumQuestionsHelper {
 
         }
         exam.setQuestions(examQuestions);
+//        Добавляем упорядочивание
+//        exam.setQuestions(examQuestions.stream().sorted(new Comparator<Question>() {
+//            @Override
+//            public int compare(Question o1, Question o2) {
+//                return o1.getAtaChapter().getAtaDigit().compareTo(o2.getAtaChapter().getAtaDigit());
+//            }
+//        }).toList());
 
     }
 }

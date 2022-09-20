@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -31,6 +32,7 @@ public class Exam {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
+    @JsonIgnore
     @JoinTable(name = "examquestions",
                 joinColumns = {@JoinColumn(name="exam_id")},
                 inverseJoinColumns = {@JoinColumn(name="question_id")})
@@ -44,6 +46,7 @@ public class Exam {
 
     @OneToMany
     @JoinColumn(name = "exam_id")
+    @JsonIgnore
     private List<StudentAnswer> answers;
 
 }

@@ -1,18 +1,12 @@
 package ru.sidorov.mcq.model;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -53,6 +47,13 @@ public class Question {
     @JoinColumn(name = "training_id")
     private Training training;
 
+    @ManyToMany
+    @JsonIgnore
+    @JoinTable(name = "examquestions",
+                joinColumns = {@JoinColumn(name = "question_id")},
+                inverseJoinColumns = {@JoinColumn(name = "exam_id")})
+    private List<Exam> exams;
+
     @Override
     public String toString() {
         return "Question{" +
@@ -60,4 +61,6 @@ public class Question {
                 ", text='" + text + '\'' +
                 '}';
     }
+
+
 }

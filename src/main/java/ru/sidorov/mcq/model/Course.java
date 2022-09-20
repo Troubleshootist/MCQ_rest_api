@@ -38,4 +38,12 @@ public class Course {
     @JoinColumn(name = "course_id")
     private List<Student> students;
 
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", courseNumber='" + courseNumber + '\'' +
+                ", training=" + training +
+                '}';
+    }
 }

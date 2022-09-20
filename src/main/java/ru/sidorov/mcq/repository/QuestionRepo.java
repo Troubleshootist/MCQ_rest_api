@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import ru.sidorov.mcq.model.AtaChapter;
+import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.model.Training;
 
@@ -19,7 +20,7 @@ public interface QuestionRepo extends CrudRepository<Question, Long>, JpaSpecifi
 
     Iterable<Question> findByAtaChapterIn(Set<AtaChapter> ataChapters);
 
-    
+    List<Question> findByExamsInAndId(List<Exam> exams, long id);
     // criteria builder, pageable! сделать спецификацию обьектом и вызывать статические методы
     List<Question> findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(AtaChapter ataChapter, int level, Training training);
 

@@ -29,4 +29,13 @@ public class Student {
     @OneToMany
     @JoinColumn(name = "student_id")
     private List<StudentAnswer> answers;
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", course=" + course +
+                '}';
+    }
 }

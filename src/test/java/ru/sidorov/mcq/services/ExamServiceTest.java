@@ -85,7 +85,7 @@ public class ExamServiceTest {
 
     @Test
     public void examCheckedTest() {
-        Exam exam = examRepo.findById(89L).orElseThrow();
+        Exam exam = examRepo.findById(79L).orElseThrow();
         long examAnswersCountFromRepo = studentAnswerRepo.findByExam(exam).size();
         int estimatedAnswersCount = exam.getQuestions().size() * exam.getCourse().getStudents().size();
         Assert.assertEquals(estimatedAnswersCount, examAnswersCountFromRepo);
