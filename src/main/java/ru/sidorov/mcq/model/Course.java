@@ -23,12 +23,12 @@ public class Course {
     private long id;
     private String courseNumber;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "training_id")
     private Training training;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany
     @JoinColumn(name = "course_id")
     private List<Exam> exams;
 

@@ -31,17 +31,17 @@ public class AddMinimumQuestionsHelper {
     }
 
     public void addMinimumQuestions(Exam exam) { // выносить в Helpers
-    	List<Question> examQuestions = new ArrayList<>();
-        for (AtaChapter ataChapter: exam.getAtaChapters()) {
+        List<Question> examQuestions = new ArrayList<>();
+        for (AtaChapter ataChapter : exam.getAtaChapters()) {
             Requirement requirement = requirementRepo.findByTrainingAndAtaChapter(exam.getCourse().getTraining(), ataChapter);
             if (requirement != null) {
                 List<Question> questionsPart = questionRepo.findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(ataChapter, requirement.getLevel(), exam.getCourse().getTraining());
-                
+
                 // Из-за того что не получается сделать запрос Order by random и Limit в HQL запросе - придется это делать в коде
                 Collections.shuffle(questionsPart);
                 List<Question> preparedQuestions = questionsPart.stream()
-                .limit(requirement.getQuestionsNumber())
-                .toList();
+                        .limit(requirement.getQuestionsNumber())
+                        .toList();
                 examQuestions.addAll(preparedQuestions);
             }
 

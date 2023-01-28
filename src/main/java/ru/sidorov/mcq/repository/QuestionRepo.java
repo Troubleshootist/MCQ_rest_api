@@ -23,7 +23,6 @@ public interface QuestionRepo extends CrudRepository<Question, Long>, JpaSpecifi
     List<Question> findByExamsInAndId(List<Exam> exams, long id);
     // criteria builder, pageable! сделать спецификацию обьектом и вызывать статические методы
     List<Question> findByAtaChapterAndLevelAndEnabledIsTrueAndCheckedIsTrueAndTraining(AtaChapter ataChapter, int level, Training training);
-
     List<Question> findByTrainingAndEnabledIsTrueAndCheckedIsTrueAndAtaChapterInAndIdNotIn(Training training, List<AtaChapter> ataChapters, List<Long> restrictedQuestionsIdList);
-
+    List<Question> findByAtaChapterInAndTraining(List<AtaChapter> ataChapters, Training training);
 }

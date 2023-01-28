@@ -1,4 +1,4 @@
-package ru.sidorov.mcq.controllers;
+package ru.sidorov.mcq.api_controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

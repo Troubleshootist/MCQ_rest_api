@@ -1,4 +1,4 @@
-package ru.sidorov.mcq.controllers;
+package ru.sidorov.mcq.api_controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -7,16 +7,15 @@ import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.repository.QuestionRepo;
 import ru.sidorov.mcq.services.QuestionService;
 
-import javax.websocket.OnClose;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.*;
 
-
 @RestController
 @RequestMapping("/api/questions")
+@CrossOrigin(origins = "http://localhost:8081")
 public class QuestionsController {
 
     private QuestionRepo questionRepo;

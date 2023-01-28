@@ -54,7 +54,7 @@ public class ExamServiceTest {
 
     @Test
     @Repeat(value = 20)
-    public void examCreationAndDeleteTest() throws Exception {
+    public void examShouldBeCreatedCorrectAndDeleted() throws Exception {
         Course course = courseRepo.findById(16L).orElseThrow();
         List<AtaChapter> allAtaChapters = ataChapterRepository.findAll();
         Collections.shuffle(allAtaChapters);
@@ -67,19 +67,20 @@ public class ExamServiceTest {
         exam.setNoteForExaminer("This note from autotest");
 
         examService.createExam(exam);
-        exam.getQuestions().stream().map(Question::getId).forEach(System.out::println);
+//        exam.getQuestions().stream().map(Question::getId).forEach(System.out::println);
         examRepo.save(exam);
 
         Assert.assertTrue(exam.getQuestions().size() > 11);
         Assert.assertEquals(0, exam.getQuestions().size() % 4);
+
+        // check for unique questions in exam
+        Assert.assertEquals(exam.getQuestions().size(), exam.getQuestions().stream().map(Question::getId).distinct().toList().size());
 
         examRepo.delete(exam);
 
         List<Question> deletedQuestions = questionRepo.findAll(inExam(exam));
         Assert.assertEquals(0, deletedQuestions.size());
 
-        // check for unique questions in exam
-        Assert.assertEquals(exam.getQuestions().size(), exam.getQuestions().stream().map(Question::getId).distinct().toList().size());
 
     }
 

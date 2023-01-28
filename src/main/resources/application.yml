@@ -1,6 +1,6 @@
 spring:
     datasource:
-        url: jdbc:postgresql://localhost:5432/mcq
+        url: jdbc:postgresql://localhost:5432/mcq_dev
         driverClassName: org.postgresql.Driver
         username: dmitriy
         password: 12345

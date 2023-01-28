@@ -1,4 +1,4 @@
-package ru.sidorov.mcq.controllers;
+package ru.sidorov.mcq.api_controllers;
 
 
 import org.junit.Test;
