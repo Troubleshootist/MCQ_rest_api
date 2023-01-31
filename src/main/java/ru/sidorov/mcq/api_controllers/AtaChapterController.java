@@ -5,29 +5,26 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.sidorov.mcq.repository.TrainingRepo;
+import ru.sidorov.mcq.repository.AtaChapterRepository;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/trainings")
+@RequestMapping("api/chapters")
 @CrossOrigin(origins = "http://localhost:8081")
-public class TrainingController {
-
-    private TrainingRepo trainingRepo;
+public class AtaChapterController {
+    private AtaChapterRepository ataChapterRepository;
 
     @Autowired
-    public void setTrainingRepo(TrainingRepo trainingRepo) {
-        this.trainingRepo = trainingRepo;
+    public void setAtaChapterRepository(AtaChapterRepository ataChapterRepository) {
+        this.ataChapterRepository = ataChapterRepository;
     }
 
     @GetMapping
-    public Map<String, Object> getAllTrainings() {
+    public Map<String, Object> getAllAtaChapters() {
         Map<String, Object> model = new HashMap<>();
-        model.put("trainings", trainingRepo.findAll());
+        model.put("ata_chapters", ataChapterRepository.findAll());
         return model;
     }
-
-
 }

@@ -3,11 +3,14 @@ package ru.sidorov.mcq.api_controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
+import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Question;
+import ru.sidorov.mcq.model.Training;
 import ru.sidorov.mcq.repository.QuestionRepo;
 import ru.sidorov.mcq.services.QuestionService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.data.jpa.domain.Specification.where;
@@ -40,6 +43,13 @@ public class QuestionsController {
         return model;
 
     }
+    @GetMapping("/filter")
+    public Map<String, Object> filteredQuestions(@RequestParam Training training, @RequestParam List<AtaChapter> ataChapterList) {
+        Map<String, Object> model = new HashMap<>();
+        Iterable<Question> filteredQuestions = questionRepo.findByAtaChapterInAndTraining(ataChapterList, training);
+        model.put("questions", filteredQuestions);
+        return model;
+    }
 
     @GetMapping("/actual")
     public Map<String, Object> actualQuestions() {
@@ -60,6 +70,8 @@ public class QuestionsController {
         model.put("questions", disabledQuestions);
         return model;
     }
+
+
 
     @GetMapping("{id}")
     public Map<String, Object> questionByID(@PathVariable("id") long id) {
