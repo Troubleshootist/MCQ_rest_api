@@ -19,6 +19,8 @@ public interface QuestionRepo extends CrudRepository<Question, Long>, JpaSpecifi
     Iterable<Question> findByEnabled(boolean enabled);
 
     Iterable<Question> findByAtaChapterIn(Set<AtaChapter> ataChapters);
+    Iterable<Question> findAllByTraining(Training training);
+    Iterable<Question> findAllByAtaChapterInAndTraining(List<AtaChapter> ataChapters, Training training);
 
     List<Question> findByExamsInAndId(List<Exam> exams, long id);
     // criteria builder, pageable! сделать спецификацию обьектом и вызывать статические методы

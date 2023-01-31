@@ -1,6 +1,7 @@
 package ru.sidorov.mcq.api_controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,7 @@ public class AtaChapterController {
     @GetMapping
     public Map<String, Object> getAllAtaChapters() {
         Map<String, Object> model = new HashMap<>();
-        model.put("ata_chapters", ataChapterRepository.findAll());
+        model.put("ata_chapters", ataChapterRepository.findAll(Sort.by(Sort.Direction.ASC, "ataDigit")));
         return model;
     }
 }

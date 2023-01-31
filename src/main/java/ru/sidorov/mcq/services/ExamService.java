@@ -88,6 +88,7 @@ public class ExamService {
         Exam initialExam = examRepo.findById(initialExamId).orElseThrow(() -> new MyEntityNotFoundException("No initial examID found"));
         exam.setAtaChapters(initialExam.getAtaChapters());
         exam.setCourse(initialExam.getCourse());
-        return null; // TODO: написать хелпер по созданию реэкзамена
+
+        return null;
     }
 }

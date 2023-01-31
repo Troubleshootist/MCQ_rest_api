@@ -6,7 +6,9 @@ import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.model.Training;
+import ru.sidorov.mcq.repository.AtaChapterRepository;
 import ru.sidorov.mcq.repository.QuestionRepo;
+import ru.sidorov.mcq.repository.TrainingRepo;
 import ru.sidorov.mcq.services.QuestionService;
 
 import java.util.HashMap;
@@ -23,6 +25,14 @@ public class QuestionsController {
 
     private QuestionRepo questionRepo;
     private QuestionService questionService;
+    private final TrainingRepo trainingRepo;
+    private final AtaChapterRepository ataChapterRepository;
+
+    public QuestionsController(TrainingRepo trainingRepo,
+                               AtaChapterRepository ataChapterRepository) {
+        this.trainingRepo = trainingRepo;
+        this.ataChapterRepository = ataChapterRepository;
+    }
 
     @Autowired
     public void setQuestionRepo(QuestionRepo questionRepo) {
@@ -44,9 +54,11 @@ public class QuestionsController {
 
     }
     @GetMapping("/filter")
-    public Map<String, Object> filteredQuestions(@RequestParam Training training, @RequestParam List<AtaChapter> ataChapterList) {
+    public Map<String, Object> filteredQuestions(@RequestParam long trainingID, @RequestParam List<String> checkedAtaDigitList) {
         Map<String, Object> model = new HashMap<>();
-        Iterable<Question> filteredQuestions = questionRepo.findByAtaChapterInAndTraining(ataChapterList, training);
+        Training trainingDAO = trainingRepo.findById(trainingID).orElseThrow();
+        List<AtaChapter> ataChaptersDAO = ataChapterRepository.findByAtaDigitIn(checkedAtaDigitList);
+        Iterable<Question> filteredQuestions = questionRepo.findAllByAtaChapterInAndTraining(ataChaptersDAO, trainingDAO);
         model.put("questions", filteredQuestions);
         return model;
     }

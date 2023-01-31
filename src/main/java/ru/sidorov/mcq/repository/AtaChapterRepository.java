@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface AtaChapterRepository extends JpaRepository<AtaChapter, Long> {
     List<AtaChapter> findByAtaDigitIn(List<String> ataDigits);
+    List<AtaChapter> findAllByIdIn(List<String> ataChapterIDList);
+    List<AtaChapter> findAllByOrderByAtaDigit();
 }
