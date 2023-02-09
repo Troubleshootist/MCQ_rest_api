@@ -4,13 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Course;
@@ -18,6 +12,7 @@ import ru.sidorov.mcq.repository.CourseRepo;
 
 @RestController
 @RequestMapping("api/courses")
+@CrossOrigin(origins = "http://localhost:8081")
 public class CourseController {
     private CourseRepo courseRepo;
 

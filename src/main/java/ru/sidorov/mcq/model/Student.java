@@ -2,6 +2,7 @@ package ru.sidorov.mcq.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,10 +24,12 @@ public class Student {
     private Date dob;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "course_id")
     private Course course;
 
     @OneToMany
+    @JsonIgnore
     @JoinColumn(name = "student_id")
     private List<StudentAnswer> answers;
 

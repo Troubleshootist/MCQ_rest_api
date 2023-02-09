@@ -27,12 +27,12 @@ public class Course {
     @JoinColumn(name = "training_id")
     private Training training;
 
-    @JsonIgnore
+
     @OneToMany
     @JoinColumn(name = "course_id")
     private List<Exam> exams;
 
-    @JsonIgnore
+
     @OneToMany
     @LazyCollection(LazyCollectionOption.FALSE)
     @JoinColumn(name = "course_id")
