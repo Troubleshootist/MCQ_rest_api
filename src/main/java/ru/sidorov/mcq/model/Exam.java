@@ -25,6 +25,7 @@ public class Exam {
     private Date date;
     private String noteForExaminer;
 
+
     
     @ManyToOne
     @JsonIgnore
@@ -49,5 +50,7 @@ public class Exam {
     @JoinColumn(name = "exam_id")
     @JsonIgnore
     private List<StudentAnswer> answers;
+
+
 
 }

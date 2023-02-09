@@ -4,17 +4,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Course;
 import ru.sidorov.mcq.repository.CourseRepo;
+import ru.sidorov.mcq.repository.ExamRepo;
+import ru.sidorov.mcq.services.ExamService;
 
 @RestController
 @RequestMapping("api/courses")
 @CrossOrigin(origins = "http://localhost:8081")
 public class CourseController {
     private CourseRepo courseRepo;
+    private ExamService examService;
+    private final ExamRepo examRepo;
+
+    public CourseController(ExamRepo examRepo) {
+        this.examRepo = examRepo;
+    }
+
+    @Autowired
+    public void setExamService(ExamService examService) {
+        this.examService = examService;
+    }
 
     @Autowired
     public void setCourseRepo(CourseRepo courseRepo) {
@@ -24,7 +38,7 @@ public class CourseController {
     @GetMapping
     public Map<String, Object> getAllCourses() {
         Map<String, Object> model = new HashMap<>();
-        model.put("courses", courseRepo.findAll());
+        model.put("courses", courseRepo.findAll(Sort.by(Sort.Direction.DESC, "id")));
         return model;
     }
 
@@ -34,8 +48,8 @@ public class CourseController {
         Course course = courseRepo.findById(id)
                     .orElseThrow(() -> new MyEntityNotFoundException("Course not found"));
         model.put("course", course);
-        model.put("students", course.getStudents());
-        model.put("exams", course.getExams());
+
+        model.put("examResults", examService.getCorrectPercentageInCourse(course));
         return model;
     }
     

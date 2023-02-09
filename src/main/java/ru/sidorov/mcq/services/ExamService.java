@@ -2,7 +2,9 @@ package ru.sidorov.mcq.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.sidorov.mcq.DTO.ExamDTO;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
+import ru.sidorov.mcq.model.Course;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
 import ru.sidorov.mcq.model.Student;
@@ -10,8 +12,11 @@ import ru.sidorov.mcq.repository.ExamRepo;
 import ru.sidorov.mcq.repository.StudentAnswerRepo;
 import ru.sidorov.mcq.services.exam_service_helpers.AddAdditionalQuestionsToDivideByFourHelper;
 import ru.sidorov.mcq.services.exam_service_helpers.AddMinimumQuestionsHelper;
+import ru.sidorov.mcq.utils.MappingUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -19,10 +24,16 @@ public class ExamService {
 
     private StudentAnswerRepo studentAnswerRepo;
     private ExamRepo examRepo;
+    private MappingUtils mappingUtils;
 
     @Autowired
     public void setStudentAnswerRepo(StudentAnswerRepo studentAnswerRepo) {
         this.studentAnswerRepo = studentAnswerRepo;
+    }
+
+    @Autowired
+    public void setMappingUtils(MappingUtils mappingUtils) {
+        this.mappingUtils = mappingUtils;
     }
 
     @Autowired
@@ -58,6 +69,26 @@ public class ExamService {
         return (double)examCorrectAnswersCount/(double)totalExamAnswers*100;
     }
 
+    public Map<Exam, Double> getCorrectPercentageOfExamsInCourse(Course course) {
+        Map<Exam, Double> results = new HashMap<>();
+        for (Exam exam :
+                course.getExams()) {
+            results.put(exam, getCorrectPercentage(exam));
+        }
+        return results;
+    }
+
+    public List<ExamDTO> getCorrectPercentageInCourse(Course course) {
+        List<ExamDTO> examDTOList = new ArrayList<>();
+        for (Exam exam :
+                course.getExams()) {
+            ExamDTO examDTO = mappingUtils.mapToExamDto(exam);
+            examDTO.setCorrectAnswersPercentage(getCorrectPercentage(exam));
+            examDTOList.add(examDTO);
+        }
+        return examDTOList;
+    }
+
     public Map<Question, Double> getPercentageByQuestions(Exam exam) {
         Map<Question, Double> questionStats = new HashMap<>();
         for (Question question: exam.getQuestions()) {
@@ -88,7 +119,8 @@ public class ExamService {
         Exam initialExam = examRepo.findById(initialExamId).orElseThrow(() -> new MyEntityNotFoundException("No initial examID found"));
         exam.setAtaChapters(initialExam.getAtaChapters());
         exam.setCourse(initialExam.getCourse());
-
+        // TODO: здесь булет код для реекзамена
         return null;
     }
+
 }
