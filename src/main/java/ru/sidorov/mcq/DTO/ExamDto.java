@@ -7,10 +7,10 @@ import java.sql.Date;
 import java.util.List;
 
 @Data
-public class ExamDTO {
+public class ExamDto {
     private long id;
     private Date date;
     private String noteForExaminer;
-    private double CorrectAnswersPercentage;
+    private double correctAnswersPercentage;
     private List<AtaChapter> ataChapters;
 }

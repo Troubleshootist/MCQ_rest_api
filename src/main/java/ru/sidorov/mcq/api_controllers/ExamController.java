@@ -69,7 +69,7 @@ public class ExamController {
         model.put("Total questions", exam.getQuestions().size());
         model.put("Correct answers percentage", examService.getCorrectPercentage(exam));
         model.put("Correct percentage by questions", examService.getPercentageByQuestions(exam));
-        model.put("Correct percentage by students", examService.getPercentageByStudents(exam));
+//        model.put("Correct percentage by students", examService.getPercentageByStudents(exam));
         return model;
     }
 

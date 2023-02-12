@@ -2,17 +2,17 @@ package ru.sidorov.mcq.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sidorov.mcq.DTO.ExamDTO;
+import ru.sidorov.mcq.DTO.ExamDto;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Course;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.model.Question;
-import ru.sidorov.mcq.model.Student;
 import ru.sidorov.mcq.repository.ExamRepo;
 import ru.sidorov.mcq.repository.StudentAnswerRepo;
 import ru.sidorov.mcq.services.exam_service_helpers.AddAdditionalQuestionsToDivideByFourHelper;
 import ru.sidorov.mcq.services.exam_service_helpers.AddMinimumQuestionsHelper;
 import ru.sidorov.mcq.utils.MappingUtils;
+import ru.sidorov.mcq.utils.mapping.ExamMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class ExamService {
 
     private StudentAnswerRepo studentAnswerRepo;
     private ExamRepo examRepo;
-    private MappingUtils mappingUtils;
+    private ExamMapper examMapper;
 
     @Autowired
     public void setStudentAnswerRepo(StudentAnswerRepo studentAnswerRepo) {
@@ -32,8 +32,8 @@ public class ExamService {
     }
 
     @Autowired
-    public void setMappingUtils(MappingUtils mappingUtils) {
-        this.mappingUtils = mappingUtils;
+    public void setExamMapper(ExamMapper examMapper) {
+        this.examMapper = examMapper;
     }
 
     @Autowired
@@ -62,31 +62,22 @@ public class ExamService {
         return exam;
     }
 
+    public List<ExamDto> getCorrectPercentageInCourse(Course course) {
+        List<ExamDto> examDtoList = new ArrayList<>();
+        for (Exam exam :
+                course.getExams()) {
+            ExamDto examDTO = examMapper.mapToExamDto(exam);
+            examDTO.setCorrectAnswersPercentage(getCorrectPercentage(exam));
+            examDtoList.add(examDTO);
+        }
+        return examDtoList;
+    }
+
     public Double getCorrectPercentage(Exam exam) {
         int examCorrectAnswersCount = studentAnswerRepo.countStudentAnswerByExamAndCorrect(exam, true);
         int examIncorrectAnswersCount = studentAnswerRepo.countStudentAnswerByExamAndCorrect(exam, false);
         int totalExamAnswers = examIncorrectAnswersCount + examCorrectAnswersCount;
         return (double)examCorrectAnswersCount/(double)totalExamAnswers*100;
-    }
-
-    public Map<Exam, Double> getCorrectPercentageOfExamsInCourse(Course course) {
-        Map<Exam, Double> results = new HashMap<>();
-        for (Exam exam :
-                course.getExams()) {
-            results.put(exam, getCorrectPercentage(exam));
-        }
-        return results;
-    }
-
-    public List<ExamDTO> getCorrectPercentageInCourse(Course course) {
-        List<ExamDTO> examDTOList = new ArrayList<>();
-        for (Exam exam :
-                course.getExams()) {
-            ExamDTO examDTO = mappingUtils.mapToExamDto(exam);
-            examDTO.setCorrectAnswersPercentage(getCorrectPercentage(exam));
-            examDTOList.add(examDTO);
-        }
-        return examDTOList;
     }
 
     public Map<Question, Double> getPercentageByQuestions(Exam exam) {
@@ -103,17 +94,7 @@ public class ExamService {
         return questionStats;
     }
 
-    public Map<Student, Double> getPercentageByStudents(Exam exam) {
-        Map<Student, Double> studentStats = new HashMap<>();
-        for (Student student: exam.getCourse().getStudents()) {
-            int studentCorrectAnswersCount = studentAnswerRepo.countStudentAnswerByStudentAndExamAndCorrect(student, exam, true);
-            int studentIncorrectAnswersCount = studentAnswerRepo.countStudentAnswerByStudentAndExamAndCorrect(student, exam, false);
-            int totalStudentAnswers = studentCorrectAnswersCount + studentIncorrectAnswersCount;
-            double correctAnswersPercentage = (double) studentCorrectAnswersCount/(double) totalStudentAnswers * 100;
-            studentStats.put(student, correctAnswersPercentage);
-        }
-        return studentStats;
-    }
+
 
     public Exam createReexam(Exam exam, long initialExamId) {
         Exam initialExam = examRepo.findById(initialExamId).orElseThrow(() -> new MyEntityNotFoundException("No initial examID found"));
