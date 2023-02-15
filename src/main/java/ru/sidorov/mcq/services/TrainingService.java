@@ -9,6 +9,7 @@ import ru.sidorov.mcq.DTO.TrainingDto;
 import ru.sidorov.mcq.model.Training;
 import ru.sidorov.mcq.repository.TrainingRepo;
 import ru.sidorov.mcq.utils.mapping.QuestionMapper;
+import ru.sidorov.mcq.utils.mapping.TrainingMapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +18,12 @@ import java.util.stream.Collectors;
 public class TrainingService {
     private TrainingRepo trainingRepo;
     private QuestionMapper questionMapper;
+    private TrainingMapper trainingMapper;
+
+    @Autowired
+    public void setTrainingMapper(TrainingMapper trainingMapper) {
+        this.trainingMapper = trainingMapper;
+    }
 
     @Autowired
     public void setTrainingRepo(TrainingRepo trainingRepo) {
@@ -41,5 +48,10 @@ public class TrainingService {
 
     public List<CourseDto> getCourses(Training entity) {
         return null;
+    }
+
+    public TrainingDto findById(long trainingID) {
+        Training trainingDAO = trainingRepo.findById(trainingID).orElseThrow();
+        return trainingMapper.mapToTrainingDto(trainingDAO);
     }
 }

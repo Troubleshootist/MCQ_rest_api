@@ -29,5 +29,5 @@ public class QuestionDto implements Serializable {
     private double totalCorrectAnswersPercentage;
     private List<ExamDto> examsList;
     private List<AnswerDto> answersList;
-    private TrainingDto trainingDto;
+    private TrainingDto training;
 }

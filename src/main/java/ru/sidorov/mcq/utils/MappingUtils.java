@@ -28,14 +28,14 @@ public class MappingUtils {
 //        entity.setPurchasePrice(dto.getPurchasePrice());
 //        return entity;
 //    }
-    public StudentDto mapToStudentDto(Student entity){
-        StudentDto dto = new StudentDto();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setSurname(entity.getSurname());
-        dto.setDob(entity.getDob());
-        dto.setAnswers(entity.getAnswers());
-        dto.setTotalCorrectPercentage(studentService.getStudentTotalCorrectPercentage(entity));
-        return dto;
-    }
+//    public StudentDto mapToStudentDto(Student entity){
+//        StudentDto dto = new StudentDto();
+//        dto.setId(entity.getId());
+//        dto.setName(entity.getName());
+//        dto.setSurname(entity.getSurname());
+//        dto.setDob(entity.getDob());
+//        dto.setAnswers(entity.getAnswers());
+//        dto.setTotalCorrectPercentage(studentService.getStudentTotalCorrectPercentage(entity));
+//        return dto;
+//    }
 }

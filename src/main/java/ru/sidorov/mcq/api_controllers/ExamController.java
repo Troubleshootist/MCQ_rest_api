@@ -3,6 +3,7 @@ package ru.sidorov.mcq.api_controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import ru.sidorov.mcq.DTO.ExamDto;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Exam;
 import ru.sidorov.mcq.repository.ExamRepo;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("api/exams")
+@CrossOrigin(origins = "http://localhost:8081")
 public class ExamController {
     private ExamRepo examRepo;
     private ExamService examService;
@@ -36,10 +38,8 @@ public class ExamController {
     @GetMapping("{id}")
     public Map<String, Object> showExamInfo(@PathVariable("id") long id) {
         Map<String, Object> model = new HashMap<>();
-        Exam exam = examRepo.findById(id)
-                    .orElseThrow(() -> new MyEntityNotFoundException(String.format("No exam with id %d", id)));
+        ExamDto exam = examService.findById(id);
         model.put("exam", exam);
-        model.put("questions_count", exam.getQuestions().size());
         return model;
     }
 

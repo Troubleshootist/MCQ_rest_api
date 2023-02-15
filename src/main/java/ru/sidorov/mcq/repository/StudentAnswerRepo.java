@@ -14,6 +14,7 @@ public interface StudentAnswerRepo extends CrudRepository<StudentAnswer, Long> {
     List<StudentAnswer> findByExamAndStudent(Exam exam, Student student);
     List<StudentAnswer> findByExam(Exam exam);
     int countStudentAnswerByExamAndCorrect(Exam exam, boolean correct);
+    int countStudentAnswerByExam(Exam exam);
     int countStudentAnswerByExamAndQuestionAndCorrect(Exam exam, Question question, boolean correct);
     int countStudentAnswerByStudentAndExamAndCorrect(Student student, Exam exam, boolean correct);
     List<StudentAnswer> findByQuestion(Question question);

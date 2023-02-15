@@ -8,19 +8,19 @@ import ru.sidorov.mcq.services.TrainingService;
 
 @Service
 public class TrainingMapper {
-    private TrainingService trainingService;
 
-    @Autowired
-    public void setTrainingService(TrainingService trainingService) {
-        this.trainingService = trainingService;
-    }
+//
+//    @Autowired
+//    public void setTrainingService(TrainingService trainingService) {
+//        this.trainingService = trainingService;
+//    }
 
     public TrainingDto mapToTrainingDto(Training entity) {
         TrainingDto dto = new TrainingDto(
-                entity.getName(),
-                trainingService.getQuestions(entity),
-                trainingService.getRequirements(entity),
-                trainingService.getCourses(entity)
+                entity.getName()
+//                trainingService.getQuestions(entity),
+//                trainingService.getRequirements(entity),
+//                trainingService.getCourses(entity)
         );
         return dto;
     }

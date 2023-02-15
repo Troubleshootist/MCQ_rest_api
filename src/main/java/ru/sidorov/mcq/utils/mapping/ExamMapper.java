@@ -11,7 +11,6 @@ public class ExamMapper {
         ExamDto dto = new ExamDto();
         dto.setId(entity.getId());
         dto.setDate(entity.getDate());
-        dto.setAtaChapters(entity.getAtaChapters());
         dto.setNoteForExaminer(entity.getNoteForExaminer());
         return dto;
     }

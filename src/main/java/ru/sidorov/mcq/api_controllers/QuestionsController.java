@@ -2,13 +2,10 @@ package ru.sidorov.mcq.api_controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.sidorov.mcq.DTO.QuestionDto;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
-import ru.sidorov.mcq.model.AtaChapter;
 import ru.sidorov.mcq.model.Question;
-import ru.sidorov.mcq.model.Training;
-import ru.sidorov.mcq.repository.AtaChapterRepository;
 import ru.sidorov.mcq.repository.QuestionRepo;
-import ru.sidorov.mcq.repository.TrainingRepo;
 import ru.sidorov.mcq.services.QuestionService;
 
 import java.util.HashMap;
@@ -16,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.springframework.data.jpa.domain.Specification.where;
-import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.*;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.checked;
+import static ru.sidorov.mcq.repository.specifications.QuestionSpecifications.enabled;
 
 @RestController
 @RequestMapping("/api/questions")
@@ -25,14 +23,7 @@ public class QuestionsController {
 
     private QuestionRepo questionRepo;
     private QuestionService questionService;
-    private final TrainingRepo trainingRepo;
-    private final AtaChapterRepository ataChapterRepository;
 
-    public QuestionsController(TrainingRepo trainingRepo,
-                               AtaChapterRepository ataChapterRepository) {
-        this.trainingRepo = trainingRepo;
-        this.ataChapterRepository = ataChapterRepository;
-    }
 
     @Autowired
     public void setQuestionRepo(QuestionRepo questionRepo) {
@@ -56,10 +47,8 @@ public class QuestionsController {
     @GetMapping("/filter")
     public Map<String, Object> filteredQuestions(@RequestParam long trainingID, @RequestParam List<String> checkedAtaDigitList) {
         Map<String, Object> model = new HashMap<>();
-        Training trainingDAO = trainingRepo.findById(trainingID).orElseThrow();
-        List<AtaChapter> ataChaptersDAO = ataChapterRepository.findByAtaDigitIn(checkedAtaDigitList);
-        Iterable<Question> filteredQuestions = questionRepo.findAllByAtaChapterInAndTraining(ataChaptersDAO, trainingDAO);
-        model.put("questions", filteredQuestions);
+        Iterable<QuestionDto> filteredQuestionDtoList = questionService.findAllByAtaChapterInAndTrainingID(checkedAtaDigitList, trainingID);
+        model.put("questions", filteredQuestionDtoList);
         return model;
     }
 
@@ -88,12 +77,11 @@ public class QuestionsController {
     @GetMapping("{id}")
     public Map<String, Object> questionByID(@PathVariable("id") long id) {
         Map<String, Object> model = new HashMap<>();
-        Question question = questionRepo.findById(id)
-                    .orElseThrow(() -> new MyEntityNotFoundException(String.format("No question with id %d", id)));
-        model.put("Question", question);
-        model.put("Total correct answers percentage", questionService.getCorrectPercentage(question));
-        model.put("Used times", questionService.usedTimes(question));
-        model.put("Used in exams", question.getExams());
+//        Question question = questionRepo.findById(id)
+//                    .orElseThrow(() -> new MyEntityNotFoundException(String.format("No question with id %d", id)));
+        QuestionDto questionDto = questionService.findById(id);
+        model.put("Question", questionDto);
+
         return model;
     }
 

@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * A DTO for the {@link ru.sidorov.mcq.model.Training} entity
+ * A DTO for the {@link ru.sidorov.mcq.model.AtaChapter} entity
  */
 @Data
-public class TrainingDto implements Serializable {
-    private long id;
-    private final String name;
+public class AtaChapterDto implements Serializable {
+    private final long id;
+    private final String ataDigit;
+    private final String ataDescription;
 //    private final List<QuestionDto> questions;
 //    private final List<RequirementDto> requirements;
-//    private final List<CourseDto> courses;
 }

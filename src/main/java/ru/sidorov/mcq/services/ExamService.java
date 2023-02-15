@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ExamService {
@@ -25,6 +26,12 @@ public class ExamService {
     private StudentAnswerRepo studentAnswerRepo;
     private ExamRepo examRepo;
     private ExamMapper examMapper;
+    private AtaChapterService ataChapterService;
+
+    @Autowired
+    public void setAtaChapterService(AtaChapterService ataChapterService) {
+        this.ataChapterService = ataChapterService;
+    }
 
     @Autowired
     public void setStudentAnswerRepo(StudentAnswerRepo studentAnswerRepo) {
@@ -104,4 +111,22 @@ public class ExamService {
         return null;
     }
 
+    public List<ExamDto> convertExamEntityListToDtoList(Course course) {
+        return course.getExams()
+                .stream()
+                .map(exam -> {
+                    ExamDto examDto = examMapper.mapToExamDto(exam);
+                    examDto.setCorrectAnswersPercentage(getCorrectPercentage(exam));
+                    return examDto;
+                })
+                .collect(Collectors.toList());
+    }
+
+    public ExamDto findById(long id) {
+        Exam examDao = examRepo.findById(id).orElseThrow();
+        ExamDto examDto = examMapper.mapToExamDto(examDao);
+        examDto.setAtaChapters(ataChapterService.mapExamAtaChaptersToDto(examDao));
+        examDto.setCorrectAnswersPercentage(getCorrectPercentage(examDao));
+        return examDto;
+    }
 }

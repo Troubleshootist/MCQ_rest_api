@@ -1,12 +1,21 @@
 package ru.sidorov.mcq.DTO;
 
-import ru.sidorov.mcq.model.Training;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CourseDto {
+/**
+ * A DTO for the {@link ru.sidorov.mcq.model.Course} entity
+ */
+@Data
+@NoArgsConstructor
+public class CourseDto implements Serializable {
     private long id;
-    private Training training;
-    private List<ExamDto> examDtoList;
-    private List<StudentDto> studentDtoList;
+    private String courseNumber;
+    private TrainingDto training;
+    private List<ExamDto> exams;
+    private List<StudentDto> students;
+    private double correctAnswersPercentage;
 }

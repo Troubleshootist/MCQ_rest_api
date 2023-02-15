@@ -12,5 +12,5 @@ public class ExamDto {
     private Date date;
     private String noteForExaminer;
     private double correctAnswersPercentage;
-    private List<AtaChapter> ataChapters;
+    private List<AtaChapterDto> ataChapters;
 }

@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import ru.sidorov.mcq.DTO.CourseDto;
 import ru.sidorov.mcq.exceptions.MyEntityNotFoundException;
 import ru.sidorov.mcq.model.Course;
 import ru.sidorov.mcq.repository.CourseRepo;
 import ru.sidorov.mcq.repository.ExamRepo;
+import ru.sidorov.mcq.services.CourseService;
 import ru.sidorov.mcq.services.ExamService;
 
 @RestController
@@ -18,16 +20,11 @@ import ru.sidorov.mcq.services.ExamService;
 @CrossOrigin(origins = "http://localhost:8081")
 public class CourseController {
     private CourseRepo courseRepo;
-    private ExamService examService;
-    private final ExamRepo examRepo;
-
-    public CourseController(ExamRepo examRepo) {
-        this.examRepo = examRepo;
-    }
+    private CourseService courseService;
 
     @Autowired
-    public void setExamService(ExamService examService) {
-        this.examService = examService;
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
     }
 
     @Autowired
@@ -38,18 +35,16 @@ public class CourseController {
     @GetMapping
     public Map<String, Object> getAllCourses() {
         Map<String, Object> model = new HashMap<>();
-        model.put("courses", courseRepo.findAll(Sort.by(Sort.Direction.DESC, "id")));
+        model.put("courses", courseService.getAll());
         return model;
     }
 
     @GetMapping("{id}")
     public Map<String, Object> getCourseInfo(@PathVariable long id) {
         Map<String, Object> model = new HashMap<>();
-        Course course = courseRepo.findById(id)
-                    .orElseThrow(() -> new MyEntityNotFoundException("Course not found"));
+        CourseDto course = courseService.getById(id);
         model.put("course", course);
 
-        model.put("examResults", examService.getCorrectPercentageInCourse(course));
         return model;
     }
     
